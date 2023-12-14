@@ -1,10 +1,12 @@
 <script>
-    import Editor from "$lib/components/Editor.svelte";
+    import { admin_sidebar } from "$src/lib/store";
     import axios from "axios";
+    import { back_api } from "$lib/const";
+    import Editor from "$lib/components/Editor.svelte";
     import { beforeNavigate, goto, invalidateAll } from "$app/navigation";
+    import { page } from "$app/stores";
     // @ts-ignore
     import Cookies from "js-cookie";
-    import { back_api, category_list } from "$lib/const";
 
     let contentArr;
     let modifyVal;
@@ -14,12 +16,12 @@
 
     let subject;
     let category;
-    let keyword;
-    let description;
 
     const uploadContent = async () => {
-        if (!subject || !category) {
-            alert("제목 or 카테고리 미선택! 선택해주세여");
+        console.log();
+
+        if (!subject) {
+            alert("제목이 입력되지 않았습니다.");
             return false;
         }
 
@@ -38,17 +40,20 @@
             }
         }
 
-        const res = await axios.post(`${back_api}/board/write`, {
+        const getId = $page.url.searchParams.get('id');
+
+        const res = await axios.post(`${back_api}/subdomain/write`, {
             subject,
             category,
             content,
             contentArr,
+            getId,
         });
 
         if (res.data.status) {
             workStatus = false;
             alert("글 작성이 완료 되었습니다.");
-            goto("/");
+            goto('/adm/subdomain')
         }
     };
 
@@ -90,26 +95,14 @@
     }
 </script>
 
-<!-- <input type="number" bind:value on:change={onChange}> -->
 <svelte:window on:keydown={onKeyDown} />
-<div class="max_screen mx-auto px-2 pb-8 mt-2">
+<div class="mt-14 px-5 text-sm suit-font" class:ml-52={!$admin_sidebar}>
     <input
         type="text"
         class="py-2 mb-1 w-full rounded-sm border-gray-300 text-sm"
         placeholder="제목을 입력하세요"
         bind:value={subject}
     />
-
-    <select
-        class="py-2 mb-1 w-full rounded-sm border-gray-300 text-sm"
-        bind:value={category}
-    >
-        <option value="">선택하세요</option>
-        {#each category_list as category}
-            <option value={category.name}>{category.name}</option>
-        {/each}
-    </select>
-
     <Editor
         on:getEditorContent={getEditorContent}
         {modifyVal}

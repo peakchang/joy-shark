@@ -67,22 +67,10 @@ mainRouter.post('/menu', async (req, res, next) => {
     let get_category;
     let posts;
     const cateLink = req.body.link
-    let cateName
+    console.log(cateLink);
     try {
-        const getCatogoryQuery = "SELECT cf_category,cf_menu FROM config WHERE cf_base = ?";
-        const getCatogory = await sql_con.promise().query(getCatogoryQuery, ['base']);
-        get_category = getCatogory[0][0];
-
-        const cateCfMenu = get_category.cf_menu.split(',')
-        const cateCfCate = get_category.cf_category.split(',')
-        for (let i = 0; i < cateCfMenu.length; i++) {
-            if (cateCfMenu[i] === cateLink) {
-                cateName = cateCfCate[i]
-                break
-            }
-        }
         const getCategoryContentQuery = "SELECT * FROM board WHERE bo_category = ?"
-        const getCategoryContent = await sql_con.promise().query(getCategoryContentQuery, [cateName]);
+        const getCategoryContent = await sql_con.promise().query(getCategoryContentQuery, [cateLink]);
         posts = getCategoryContent[0]
 
     } catch (error) {

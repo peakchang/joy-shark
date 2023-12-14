@@ -87,11 +87,26 @@
     <div class="my-6 kbo-font text-2xl text-gray-700 text-center relative">
         <div class="absolute right-0 suit-font text-sm">
             <button
-                class="bg-green-500 focus:bg-green-600 text-white px-3 py-1 rounded-md"
+                class="bg-green-500 focus:bg-green-600 text-white px-3 py-1 rounded-md flex justify-center items-center gap-2"
                 style="top: -20px"
                 on:click={chkModalOpen}
             >
-                글추가하기
+                <span>
+                    <svg
+                        class="w-4 h-4 dark:text-white"
+                        fill="none"
+                        viewBox="0 0 20 20"
+                    >
+                        <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M18.5 8V4.5a3.5 3.5 0 1 0-7 0V8M8 12.167v3M2 8h12a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"
+                        />
+                    </svg>
+                </span>
+                <span> 글추가하기 </span>
             </button>
         </div>
 

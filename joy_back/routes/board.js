@@ -3,8 +3,8 @@ import { sql_con } from '../back-lib/db.js'
 import fs from 'fs'
 const boardRouter = express.Router();
 import moment from "moment-timezone";
-import { log } from "console";
-moment.tz.setDefault("Asia/Seoul");
+const koreaTime = moment.tz('Asia/Seoul');
+
 
 boardRouter.post('/modify_api_img', async (req, res, next) => {
     let status = 'success';
@@ -140,33 +140,24 @@ boardRouter.post('/modify', async (req, res, next) => {
     res.json({ status })
 })
 
-boardRouter.get('/write', async (req, res, next) => {
-    let get_category
-    try {
-        const getCategoryQuery = "SELECT cf_category FROM config WHERE cf_base = 'base'";
-        const getCategory = await sql_con.promise().query(getCategoryQuery);
-        get_category = getCategory[0][0];
-    } catch (error) {
-    }
-    res.json({ get_category })
-})
+
 
 boardRouter.post('/write', async (req, res, next) => {
-    let status = 'success';
+    let status = true;
     const body = req.body
-    const currentTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    const now = moment().format('YYYY-MM-DD HH:mm:ss');
+
+    const now = koreaTime.format('YYYY-MM-DD HH:mm:ss');
+    console.log(now);
 
     try {
-        const registContentQuery = "INSERT INTO board (bo_category, bo_subject, bo_content, bo_keyword, bo_description, bo_created_at) VALUES (?,?,?,?,?,?)";
-        await sql_con.promise().query(registContentQuery, [body.category, body.subject, body.content, body.keyword, body.description, now]);
+        const registContentQuery = "INSERT INTO board (bo_category, bo_subject, bo_content, bo_created_at) VALUES (?,?,?,?)";
+        await sql_con.promise().query(registContentQuery, [body.category, body.subject, body.content, now]);
     } catch (error) {
         console.error(error.message);
-        status = 'fail';
+        status = false;
     }
 
     const imgList = body.contentArr
-    console.log(imgList);
     for (let i = 0; i < imgList.length; i++) {
         if (imgList[i]) {
             try {
@@ -176,7 +167,6 @@ boardRouter.post('/write', async (req, res, next) => {
 
             }
         }
-
     }
     res.json({ status })
 })

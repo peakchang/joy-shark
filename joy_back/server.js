@@ -14,8 +14,10 @@ import { boardRouter } from "./routes/board.js"
 import { mainRouter } from "./routes/main.js"
 import { resRouter } from './routes/res.js';
 
-import { admBackLinkRouter } from './routes/adm_backlink.js'
-import { nworkRouter } from './routes/adm_nwork.js';
+import { subdomainRouter } from './routes/subdomain.js';
+import { subviewRouter } from './routes/subview.js';
+
+
 
 
 // import { apiRouter } from "./routes/exapi.js"
@@ -50,8 +52,10 @@ app.use(cors(corsOptions));
 
 app.enable('trust proxy');
 
-app.use('/api/v7/adm_backlink', admBackLinkRouter);
-app.use('/api/v7/nwork', nworkRouter);
+app.use('/api/v7/subview', subviewRouter);
+
+app.use('/api/v7/subdomain', subdomainRouter);
+
 
 app.use('/api/v7/res', resRouter);
 app.use('/api/v7/adm', admRouter);

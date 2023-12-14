@@ -9,10 +9,10 @@
     } from "$app/navigation";
     import { back_api, category_list } from "$src/lib/const";
 
+
     // invalidate 를 사용할때에는 인자로 링크가 들어가야함
 
     export let data;
-    console.log(data);
 
     let cateName;
     let postList = [];
@@ -24,20 +24,24 @@
 
     afterNavigate(() => {
         invalidateAll();
-        postList = [...data.posts].reverse();
 
-        for (let i = 0; i < category_list.length; i++) {
-        if (category_list[i].link === $page.params.link) {
-            cateName = category_list[i].name;
+        if (data.posts) {
+            postList = [...data.posts].reverse();
+
+            for (let i = 0; i < category_list.length; i++) {
+                if (category_list[i].link === $page.params.link) {
+                    cateName = category_list[i].name;
+                }
+            }
         }
-    }
 
         console.log(cateName);
     });
 
     let seoValue = {
         title: `행복 가득 두꺼비 - ${cateName}`,
-        description: "건강,연예,맛집,분양 등 다양한 정보를 전하는 두꺼비 블로그",
+        description:
+            "건강,연예,맛집,분양 등 다양한 정보를 전하는 두꺼비 블로그",
         keywords: "건강,연예,맛집,분양",
         url: $page.url.origin,
         image: `${$page.url.origin}/logo.png`,
@@ -93,7 +97,6 @@
         </a>
     {/each}
 </div>
-
 
 <style>
     .sr-only {
