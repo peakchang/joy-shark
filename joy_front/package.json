@@ -1,0 +1,25 @@
+{
+  "name": "joy_front",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production PORT=3010 pm2 start server.js -i 0 --name find-front",
+    "dev": "nodemon server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.5.1",
+    "@sveltejs/adapter-node": "^1.3.1",
+    "axios": "^1.6.2",
+    "cheerio": "^1.0.0-rc.12",
+    "express": "^4.18.2",
+    "quill": "^1.3.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
